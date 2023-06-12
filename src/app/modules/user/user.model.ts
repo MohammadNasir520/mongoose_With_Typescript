@@ -1,8 +1,8 @@
 import { Model, Schema, model } from "mongoose";
-import { IUser, IUserMethods } from "./user.interface";
+import { IUser, IUserMethods, UserModel } from "./user.interface";
 
 // Create a new Model type that knows about IUserMethods...
-type UserModel = Model<IUser, {}, IUserMethods>;
+// type UserModel = Model<IUser, {}, IUserMethods>;
 
 // creating schema using interface
 const userSchema = new Schema<IUser, UserModel, IUserMethods>({
@@ -60,6 +60,11 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>({
     required: true,
   },
 });
+
+userSchema.static("getAdminUsers", async function getAdminUsers() {
+  const admins = await this.find({ role: "admin" });
+});
+
 userSchema.method("fullName", function fullName() {
   return this.name.firstName + " " + this.name.lastName;
 });
