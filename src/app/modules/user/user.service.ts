@@ -2,8 +2,8 @@ import { IUser } from "./user.interface";
 import User from "./user.model";
 
 export const createUserToDB = async (payload: IUser): Promise<IUser> => {
-  const user = await new User(payload);
-  await user.save();
+  const user = await new User(payload); // instance
+  await user.save(); // methods and it is build in methods
   return user;
 };
 
@@ -15,6 +15,9 @@ export const getUserFromDB = async (): Promise<IUser[]> => {
 export const getUserByIdFromDB = async (
   payload: string
 ): Promise<IUser | null> => {
-  const user = await User.findOne({ id: payload });
+  const user = await User.findOne(
+    { id: payload },
+    { name: 1, presentAddress: 1 }
+  );
   return user;
 };
