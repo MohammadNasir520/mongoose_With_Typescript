@@ -1,3 +1,5 @@
+import { Model } from "mongoose";
+
 export interface IUser {
   id: string;
   role: "student";
@@ -14,6 +16,11 @@ export interface IUser {
   emergencyContact: string;
   presentAddress: string;
   permanentAddress: string;
+}
+
+// statics
+interface UserModel extends Model<IUser> {
+  getAdminUsers(): IUser[];
 }
 
 // Put all user instance methods in this interface:

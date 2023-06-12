@@ -60,6 +60,9 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>({
     required: true,
   },
 });
-const User = model<IUser>("User", userSchema);
+userSchema.method("fullName", function fullName() {
+  return this.name.firstName + " " + this.name.lastName;
+});
+const User = model<IUser, UserModel>("User", userSchema);
 
 export default User;
