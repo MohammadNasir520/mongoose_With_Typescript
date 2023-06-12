@@ -12,6 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req: Request, res: Response, next: NextFunction) => {
+  res.send("mongoose milestone server is running ");
   // inserting a test data into mongodb
 
   /*
@@ -83,19 +84,46 @@ step4: Database query
     },
     contactNo: {
       type: String,
+      required: true,
     },
     emergencyContact: {
       type: String,
+      required: true,
     },
     presentAddress: {
       type: String,
+      required: true,
     },
     permanentAddress: {
       type: String,
+      required: true,
     },
   });
 
-  res.send("mongoose milestone server is running ");
+  const User = model<IUser>("User", userSchema);
+
+  const createUserToDB = async () => {
+    const user = new User({
+      id: "778",
+      role: "student",
+      password: "jhakanaka",
+      name: {
+        firstName: "mohammad",
+        middleName: "nasir",
+        lastName: "uddin",
+      },
+
+      gender: "male",
+      email: "abc@gmail.coom",
+      contactNo: "o1777777777",
+      emergencyContact: "0188888",
+      presentAddress: "tarash",
+      permanentAddress: "usa",
+    });
+    await user.save();
+    console.log(user);
+  };
+  createUserToDB();
 });
 
 export default app;
