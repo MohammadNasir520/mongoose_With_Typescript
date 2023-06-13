@@ -4,7 +4,7 @@ import { IUser, IUserMethods, UserModel } from "./user.interface";
 // Create a new Model type that knows about IUserMethods...
 // type UserModel = Model<IUser, {}, IUserMethods>;
 
-// creating schema using interface
+// 4. creating schema using 3 generic parameter 1.interface 2.Model 3.methods
 const userSchema = new Schema<IUser, UserModel, IUserMethods>({
   id: {
     type: String,
@@ -61,13 +61,19 @@ const userSchema = new Schema<IUser, UserModel, IUserMethods>({
   },
 });
 
+// 5. Schema.static and there will be static name and a function name
 userSchema.static("getAdminUsers", async function getAdminUsers() {
-  const admins = await this.find({ role: "admin" });
+  const admins: any = await this.find({ role: "admin" });
+  console.log(admins);
+  return admins;
 });
 
+// 6. schema.method
 userSchema.method("fullName", function fullName() {
   return this.name.firstName + " " + this.name.lastName;
 });
+
+//7.  passing the user model which was created by extending mongoose's built in Model in the sequence number 3
 const User = model<IUser, UserModel>("User", userSchema);
 
 export default User;
